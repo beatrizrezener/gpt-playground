@@ -6,6 +6,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // default value, just being explicit
 });
 
+const defaultModel = "gpt-3.5-turbo";
+
 function greet(name) {
   return 'Hello, ' + name + '!';
 }
@@ -37,7 +39,7 @@ async function runConversation() {
   }];
 
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
+    model: defaultModel,
     messages: messages,
     functions: functions,
     function_call: "auto", // default value, just being explicit
@@ -66,7 +68,7 @@ async function runConversation() {
       "content": functionResponse,
     }); // extend conversation with function response
     const secondResponse = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: defaultModel,
         messages: messages,
     }); // get a new response from GPT where it can see the function response
     return secondResponse;
